@@ -29,11 +29,6 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private float Movement = 0f;
 
-    private float leftArmLength = 1f;
-
-    [SerializeField]
-    public float LeftArmStartSpeeed;
-
     private float leftArmSpeed;
     private bool leftArmMoving = false;
 
@@ -75,9 +70,6 @@ public class CharacterController : MonoBehaviour
 
         leftDirection = usesLeft? Mathf.Sign(leftX) * Acceleration : 0f;
 
-        var angleLeft = new Vector2(leftX, leftY);//Mathf.Atan2(leftY, leftX) * Mathf.Rad2Deg);
-        //LeftArm.connectedBody.rotation = Mathf.Atan2(leftY, leftX) * Mathf.Rad2Deg;
-        
         var rightX = Gamepad.current.rightStick.x.ReadValue();
         var rightY = Gamepad.current.rightStick.y.ReadValue();
 
@@ -85,12 +77,6 @@ public class CharacterController : MonoBehaviour
         
         rightDirection = usesRight? Mathf.Sign(rightX) * Acceleration : 0f;
 
-        var angleRight = new Vector2(rightX, rightY);// Mathf.Atan2(rightY, rightX) * Mathf.Rad2Deg;
-        //RightArm.connectedBody.rotation = Mathf.Atan2(rightY, rightX) * Mathf.Rad2Deg;
-        
-        
-        
-        
         if (Gamepad.current.leftTrigger.isPressed && leftPhase == BodyPhase.Idle)
         {
             leftPhase = BodyPhase.MovingArm;
@@ -112,12 +98,7 @@ public class CharacterController : MonoBehaviour
         var rightMotor = RightJoint.motor;
         rightMotor.motorSpeed = rightDirection;
         RightJoint.motor = rightMotor;
-
-        //leftMotor.motorSpeed = Mathf.Clamp(leftMotor.motorSpeed, -10f, 10f);
-        //rightMotor.motorSpeed = Mathf.Clamp(rightMotor.motorSpeed, -10f, 10f);
         
-        //Debug.DrawLine(LeftJoint.attachedRigidbody.position,LeftJoint.attachedRigidbody.position + leftDirection * 3,Color.magenta);
-
         switch (leftPhase)
         {
             case BodyPhase.MovingArm:
