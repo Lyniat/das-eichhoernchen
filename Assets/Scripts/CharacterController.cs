@@ -26,11 +26,8 @@ public class CharacterController : MonoBehaviour
     
     [SerializeField]
     private float Acceleration = 0f;
-
-    private float leftArmLength = 1f;
-
     [SerializeField]
-    public float LeftArmStartSpeeed;
+    private float Movement = 0f;
 
     private float leftArmSpeed;
     private bool leftArmMoving = false;
@@ -45,6 +42,10 @@ public class CharacterController : MonoBehaviour
     
     private BodyPhase leftPhase = BodyPhase.Idle;
     private BodyPhase rightPhase = BodyPhase.Idle;
+
+    private float rightDirection = 0;
+    private float leftDirection = 0;
+    
 
     public enum BodyPhase
     {
@@ -61,76 +62,21 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        /*
-
-        var leftMotor = LeftJoint.motor;
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            leftMotor.motorSpeed -= Acceleration;
-            LeftJoint.motor = leftMotor;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            leftMotor.motorSpeed += Acceleration;
-            LeftJoint.motor = leftMotor;
-        }
-
-
-        //var leftOffset = LeftArm.connectedAnchor;
-        if (Input.GetKeyDown(KeyCode.UpArrow) && leftPhase == BodyPhase.Idle)
-        {
-            leftPhase = BodyPhase.MovingArm;
-            //LeftArm.connectedAnchor = leftOffset + new Vector2(0, 2f);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.DownArrow) && rightPhase == BodyPhase.Idle)
-        {
-            rightPhase = BodyPhase.MovingArm;
-            //LeftArm.connectedAnchor = leftOffset + new Vector2(0, 2f);
-        }
-        
-        */
-        
-        /*
-
-        var newTime = time + Time.fixedDeltaTime;
-        var leftOffset = 1f - Mathf.Abs(Mathf.Cos(newTime));
-        if (newTime > 100f)
-        {
-            newTime -= 100f;
-        }
-
-        time = newTime;
-
-        LeftArm.connectedAnchor = leftArmStart + new Vector2(0, leftOffset);
-        
-        */
-        /*
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            leftOffset.y += 0.1f;
-            leftOffset.y = Mathf.Clamp(leftOffset.y, -3f, -0.5f);
-            LeftArm.linearOffset = leftOffset;
-        }
-
-        leftOffset.y = -Math.Abs(leftMotor.motorSpeed)/100f;
-        leftOffset.y = Mathf.Clamp(leftOffset.y, -3f, -0.5f);
-        LeftArm.linearOffset = leftOffset;
-        
-        */
 
         var leftX = Gamepad.current.leftStick.x.ReadValue();
         var leftY = Gamepad.current.leftStick.y.ReadValue();
 
-        var angleLeft = Mathf.Atan2(leftY, leftX) * Mathf.Rad2Deg;
-        //LeftJoint.connectedBody.rotation = angleLeft + 270f;
-        
+        var usesLeft = Mathf.Abs(leftX) > 0.5f || Mathf.Abs(leftY) > 0.5f;
+
+        leftDirection = usesLeft? Mathf.Sign(leftX) * Acceleration : 0f;
+
         var rightX = Gamepad.current.rightStick.x.ReadValue();
         var rightY = Gamepad.current.rightStick.y.ReadValue();
+
+        var usesRight = Mathf.Abs(rightX) > 0.5f || Mathf.Abs(rightY) > 0.5f;
         
-        var angleRight = Mathf.Atan2(rightY, rightX) * Mathf.Rad2Deg;
-        //RightJoint.connectedBody.rotation = angleRight + 270;
-        
+        rightDirection = usesRight? Mathf.Sign(rightX) * Acceleration : 0f;
+
         if (Gamepad.current.leftTrigger.isPressed && leftPhase == BodyPhase.Idle)
         {
             leftPhase = BodyPhase.MovingArm;
@@ -140,24 +86,34 @@ public class CharacterController : MonoBehaviour
         {
             rightPhase = BodyPhase.MovingArm;
         }
+        
 
         var leftArmPhaseOffset = 0f;
         var rightArmPhaseOffset = 0f;
 
         var leftMotor = LeftJoint.motor;
-        leftMotor.motorSpeed -= Acceleration * leftX;
+        leftMotor.motorSpeed = leftDirection;
         LeftJoint.motor = leftMotor;
         
         var rightMotor = RightJoint.motor;
-        rightMotor.motorSpeed -= Acceleration * rightX;
+        rightMotor.motorSpeed = rightDirection;
         RightJoint.motor = rightMotor;
-
-        leftMotor.motorSpeed = Mathf.Clamp(leftMotor.motorSpeed, -10f, 10f);
-        rightMotor.motorSpeed = Mathf.Clamp(rightMotor.motorSpeed, -10f, 10f);
-
+        
         switch (leftPhase)
         {
             case BodyPhase.MovingArm:
+                leftArmTime += Time.fixedDeltaTime * 3;
+                leftArmPhaseOffset = Mathf.Abs(Mathf.Sin(leftArmTime));
+                LeftArm.connectedAnchor = leftArmStart + new Vector2(0f,leftArmPhaseOffset)*3;
+                if (leftArmTime >= Mathf.PI/2f)
+                {
+                    leftPhase = BodyPhase.MovingBody;
+                    var direction = (LeftHandJoint.attachedRigidbody.position - LeftJoint.connectedBody.position).normalized;
+                    Body.velocity /= 2f;
+                    Body.velocity += direction * Movement;
+                }
+                break;
+            case BodyPhase.MovingBody:
                 leftArmTime += Time.fixedDeltaTime * 3;
                 leftArmPhaseOffset = Mathf.Abs(Mathf.Sin(leftArmTime));
                 LeftArm.connectedAnchor = leftArmStart + new Vector2(0f,leftArmPhaseOffset)*3;
@@ -166,8 +122,6 @@ public class CharacterController : MonoBehaviour
                     LeftArm.connectedAnchor = leftArmStart;
                     leftArmTime = 0;
                     leftPhase = BodyPhase.Idle;
-                    var direction = (LeftHandJoint.attachedRigidbody.position - LeftJoint.connectedBody.position).normalized;
-                    Body.velocity = direction * 20;
                 }
                 break;
         }
@@ -178,13 +132,23 @@ public class CharacterController : MonoBehaviour
                 rightArmTime += Time.fixedDeltaTime * 3;
                 rightArmPhaseOffset = Mathf.Abs(Mathf.Sin(rightArmTime));
                 RightArm.connectedAnchor = rightArmStart + new Vector2(0f,rightArmPhaseOffset)*3;
+                if (rightArmTime >= Mathf.PI/2f)
+                {
+                    rightPhase = BodyPhase.MovingBody;
+                    var direction = (RightHandJoint.attachedRigidbody.position - RightJoint.connectedBody.position).normalized;
+                    Body.velocity /= 2f;
+                    Body.velocity += direction * Movement;
+                }
+                break;
+            case BodyPhase.MovingBody:
+                rightArmTime += Time.fixedDeltaTime * 3;
+                rightArmPhaseOffset = Mathf.Abs(Mathf.Sin(rightArmTime));
+                RightArm.connectedAnchor = rightArmStart + new Vector2(0f,rightArmPhaseOffset)*3;
                 if (rightArmTime >= Mathf.PI)
                 {
                     RightArm.connectedAnchor = rightArmStart;
                     rightArmTime = 0;
                     rightPhase = BodyPhase.Idle;
-                    var direction = (RightHandJoint.attachedRigidbody.position - RightJoint.attachedRigidbody.position).normalized;
-                    Body.velocity = direction * 20;
                 }
                 break;
         }
