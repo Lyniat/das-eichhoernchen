@@ -51,6 +51,8 @@ public class CharacterController : MonoBehaviour, IGameState
 
     private Rigidbody2D rigidbody2D;
     
+    [SerializeField]
+    private float MaxVelocity = 12f;
 
     public enum BodyPhase
     {
@@ -159,10 +161,28 @@ public class CharacterController : MonoBehaviour, IGameState
                 break;
         }
 
-        if (Body.velocity.y > 5)
+        if (Body.velocity.y > MaxVelocity)
         {
             var v = Body.velocity;
-            v.y = 5;
+            v.y = MaxVelocity;
+            Body.velocity = v;
+        }
+        if (Body.velocity.y < -MaxVelocity)
+        {
+            var v = Body.velocity;
+            v.y = -MaxVelocity;
+            Body.velocity = v;
+        }
+        if (Body.velocity.x > MaxVelocity)
+        {
+            var v = Body.velocity;
+            v.x = MaxVelocity;
+            Body.velocity = v;
+        }
+        if (Body.velocity.x < -MaxVelocity)
+        {
+            var v = Body.velocity;
+            v.x = -MaxVelocity;
             Body.velocity = v;
         }
     }
@@ -210,6 +230,7 @@ public class CharacterController : MonoBehaviour, IGameState
     public void OnHit()
     {
         Debug.Log("HIT");
+        GetComponent<CircleCollider2D>().enabled = false;
         state = CharacterState.Dead;
     }
 
