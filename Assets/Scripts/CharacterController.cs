@@ -158,6 +158,13 @@ public class CharacterController : MonoBehaviour, IGameState
                 }
                 break;
         }
+
+        if (Body.velocity.y > 5)
+        {
+            var v = Body.velocity;
+            v.y = 5;
+            Body.velocity = v;
+        }
     }
 
     private void Hit()
