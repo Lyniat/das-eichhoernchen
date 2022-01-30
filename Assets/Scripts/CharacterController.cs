@@ -116,19 +116,16 @@ public class CharacterController : MonoBehaviour, IGameState
             case BodyPhase.MovingArm:
                 leftArmTime += Time.fixedDeltaTime * 3;
                 leftArmPhaseOffset = Mathf.Abs(Mathf.Sin(leftArmTime));
-                LeftArm.connectedAnchor = leftArmStart + new Vector2(0f,leftArmPhaseOffset)*3;
+                LeftArm.connectedAnchor = leftArmStart + new Vector2(0f,leftArmPhaseOffset)*4;
                 if (leftArmTime >= Mathf.PI/2f)
                 {
                     leftPhase = BodyPhase.MovingBody;
-                    var direction = (LeftHandJoint.attachedRigidbody.position - LeftJoint.connectedBody.position).normalized;
-                    Body.velocity /= 4f;
-                    Body.velocity += direction * Movement;
                 }
                 break;
             case BodyPhase.MovingBody:
                 leftArmTime += Time.fixedDeltaTime * 3;
                 leftArmPhaseOffset = Mathf.Abs(Mathf.Sin(leftArmTime));
-                LeftArm.connectedAnchor = leftArmStart + new Vector2(0f,leftArmPhaseOffset)*3;
+                LeftArm.connectedAnchor = leftArmStart + new Vector2(0f,leftArmPhaseOffset)*4;
                 if (leftArmTime >= Mathf.PI)
                 {
                     LeftArm.connectedAnchor = leftArmStart;
@@ -143,19 +140,16 @@ public class CharacterController : MonoBehaviour, IGameState
             case BodyPhase.MovingArm:
                 rightArmTime += Time.fixedDeltaTime * 3;
                 rightArmPhaseOffset = Mathf.Abs(Mathf.Sin(rightArmTime));
-                RightArm.connectedAnchor = rightArmStart + new Vector2(0f,rightArmPhaseOffset)*3;
+                RightArm.connectedAnchor = rightArmStart + new Vector2(0f,rightArmPhaseOffset)*4;
                 if (rightArmTime >= Mathf.PI/2f)
                 {
                     rightPhase = BodyPhase.MovingBody;
-                    var direction = (RightHandJoint.attachedRigidbody.position - RightJoint.connectedBody.position).normalized;
-                    Body.velocity /= 4f;
-                    Body.velocity += direction * Movement;
                 }
                 break;
             case BodyPhase.MovingBody:
                 rightArmTime += Time.fixedDeltaTime * 3;
                 rightArmPhaseOffset = Mathf.Abs(Mathf.Sin(rightArmTime));
-                RightArm.connectedAnchor = rightArmStart + new Vector2(0f,rightArmPhaseOffset)*3;
+                RightArm.connectedAnchor = rightArmStart + new Vector2(0f,rightArmPhaseOffset)*4;
                 if (rightArmTime >= Mathf.PI)
                 {
                     RightArm.connectedAnchor = rightArmStart;
@@ -219,6 +213,25 @@ public class CharacterController : MonoBehaviour, IGameState
 
     public void OnHandEnter(Hand.HandType type)
     {
-        
+        if (type == Hand.HandType.Left)
+        {
+            if (leftPhase == BodyPhase.MovingArm)
+            {
+                leftPhase = BodyPhase.MovingBody;
+                var direction = (LeftHandJoint.attachedRigidbody.position - LeftJoint.connectedBody.position).normalized;
+                Body.velocity /= 4f;
+                Body.velocity += direction * Movement;
+            }
+        }
+        else
+        {
+            if (rightPhase == BodyPhase.MovingArm)
+            {
+                rightPhase = BodyPhase.MovingBody;
+                var direction = (RightHandJoint.attachedRigidbody.position - RightJoint.connectedBody.position).normalized;
+                Body.velocity /= 4f;
+                Body.velocity += direction * Movement;
+            }
+        }
     }
 }

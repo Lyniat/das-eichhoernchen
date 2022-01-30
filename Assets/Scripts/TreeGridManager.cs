@@ -36,7 +36,7 @@ public class TreeGridManager : MonoBehaviour
                     obj.transform.localScale = new Vector3(tileSize, tileSize, 1);
                     continue;
                 }
-                gridArray[i, j] = Random.Range(0, 15) == 1? 1 : 0;
+                gridArray[i, j] = Random.Range(0, 3) == 1? 1 : 0;
                 if (gridArray[i, j] == 0)
                 {
                     var obj = Instantiate(zero, position * tileSize + offset, Quaternion.identity);
