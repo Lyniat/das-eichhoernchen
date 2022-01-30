@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CharacterController : MonoBehaviour
+public class CharacterController : MonoBehaviour, IGameState
 {
     [SerializeField]
     private Rigidbody2D Body;
@@ -45,6 +46,10 @@ public class CharacterController : MonoBehaviour
 
     private float rightDirection = 0;
     private float leftDirection = 0;
+
+    private CharacterState state = CharacterState.Moving;
+
+    private Rigidbody2D rigidbody2D;
     
 
     public enum BodyPhase
@@ -53,16 +58,23 @@ public class CharacterController : MonoBehaviour
         MovingArm,
         MovingBody
     }
+
+    public enum CharacterState
+    {
+        Moving,
+        Hit,
+        Dead
+    }
     void Awake()
     {
         leftArmStart = LeftArm.connectedAnchor;
         rightArmStart = RightArm.connectedAnchor;
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        GameStateObserver.getInstance().Add(this);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void MoveCharacter()
     {
-
         var leftX = Gamepad.current.leftStick.x.ReadValue();
         var leftY = Gamepad.current.leftStick.y.ReadValue();
 
@@ -152,5 +164,61 @@ public class CharacterController : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void Hit()
+    {
+        rigidbody2D.velocity = Vector2.down * 3;
+        state = CharacterState.Dead;
+    }
+
+    private void Die()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+
+        switch (state)
+        {
+            case CharacterState.Moving:
+                MoveCharacter();
+                break;
+            case CharacterState.Hit:
+                Hit();
+                break;
+            case CharacterState.Dead:
+                Die();
+                break;
+        }
+        
+    }
+
+    public void OnReady()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnActive()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnHit()
+    {
+        Debug.Log("HIT");
+        state = CharacterState.Dead;
+    }
+
+    public void OnGameOver()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnHandEnter(Hand.HandType type)
+    {
+        
     }
 }

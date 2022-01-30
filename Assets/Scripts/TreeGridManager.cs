@@ -8,13 +8,17 @@ public class TreeGridManager : MonoBehaviour
     [SerializeField] GameObject one;
     [SerializeField] GameObject two;
     [SerializeField] GameObject three;
-    static int arrayWidth = 10;
-    static int arrayHeight = 15;
-    int[,] gridArray = new int[arrayWidth, arrayHeight];
+    [SerializeField] private int arrayWidth = 10;
+    [SerializeField] private int arrayHeight = 15;
+    [SerializeField] private float tileSize = 2f;
+    private int[,] gridArray;
+    [SerializeField] private int xOffset = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        var offset = new Vector2(xOffset - (arrayWidth*tileSize)/2f, 0);
+        gridArray = new int[arrayWidth, arrayHeight];
         for (int i = 0; i < arrayWidth; i++)
         {
             for (int j = 0; j < arrayHeight; j++)
@@ -22,18 +26,21 @@ public class TreeGridManager : MonoBehaviour
                 Vector2 position = new Vector2(i, j);
                 if (i == 0)
                 {
-                    Instantiate(two, position, Quaternion.identity);
+                    var obj = Instantiate(two, position * tileSize + offset, Quaternion.identity);
+                    obj.transform.localScale = new Vector3(tileSize, tileSize, 1);
                     continue;
                 }
                 else if (i == arrayWidth - 1)
                 {
-                    Instantiate(three, position, Quaternion.identity);
+                    var obj = Instantiate(three, position * tileSize + offset, Quaternion.identity);
+                    obj.transform.localScale = new Vector3(tileSize, tileSize, 1);
                     continue;
                 }
-                gridArray[i, j] = Random.Range(0, 2);
+                gridArray[i, j] = Random.Range(0, 15) == 1? 1 : 0;
                 if (gridArray[i, j] == 0)
                 {
-                    Instantiate(zero, position, Quaternion.identity);
+                    var obj = Instantiate(zero, position * tileSize + offset, Quaternion.identity);
+                    obj.transform.localScale = new Vector3(tileSize, tileSize, 1);
                 }
                 else if (gridArray[i, j] == 1)
                 {
@@ -42,7 +49,8 @@ public class TreeGridManager : MonoBehaviour
                         if (gridArray[i - 1, j] == 1)
                         {
                             gridArray[i, j] = 0;
-                            Instantiate(zero, position, Quaternion.identity);
+                            var obj = Instantiate(zero, position * tileSize + offset, Quaternion.identity);
+                            obj.transform.localScale = new Vector3(tileSize, tileSize, 1);
                             continue;
                         }
                     }
@@ -51,11 +59,13 @@ public class TreeGridManager : MonoBehaviour
                         if (gridArray[i, j - 1] == 1)
                         {
                             gridArray[i, j] = 0;
-                            Instantiate(zero, position, Quaternion.identity);
+                            var obj = Instantiate(zero, position * tileSize + offset, Quaternion.identity);
+                            obj.transform.localScale = new Vector3(tileSize, tileSize, 1);
                             continue;
                         }
                     }
-                    Instantiate(one, position, Quaternion.identity);
+                    var obj2 = Instantiate(one, position * tileSize + offset, Quaternion.identity);
+                    obj2.transform.localScale = new Vector3(tileSize, tileSize, 1);
                 }
             }
         }
