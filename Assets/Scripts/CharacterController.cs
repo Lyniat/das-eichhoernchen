@@ -109,7 +109,7 @@ public class CharacterController : MonoBehaviour
                 {
                     leftPhase = BodyPhase.MovingBody;
                     var direction = (LeftHandJoint.attachedRigidbody.position - LeftJoint.connectedBody.position).normalized;
-                    Body.velocity /= 2f;
+                    Body.velocity /= 4f;
                     Body.velocity += direction * Movement;
                 }
                 break;
@@ -136,7 +136,7 @@ public class CharacterController : MonoBehaviour
                 {
                     rightPhase = BodyPhase.MovingBody;
                     var direction = (RightHandJoint.attachedRigidbody.position - RightJoint.connectedBody.position).normalized;
-                    Body.velocity /= 2f;
+                    Body.velocity /= 4f;
                     Body.velocity += direction * Movement;
                 }
                 break;
