@@ -77,8 +77,8 @@ public class CharacterController : MonoBehaviour, IGameState
 
     void MoveCharacter()
     {
-        var leftX = Gamepad.current.leftStick.x.ReadValue();
-        var leftY = Gamepad.current.leftStick.y.ReadValue();
+        var leftX = Input.GetAxis("Horizontal");
+        var leftY = Input.GetAxis("Vertical");
 
         var usesLeft = Mathf.Abs(leftX) > 0.5f || Mathf.Abs(leftY) > 0.5f;
 
