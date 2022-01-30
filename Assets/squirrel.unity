@@ -758,7 +758,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.38768244, g: 0.5597682, b: 0.8301887, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -983,7 +983,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.5, y: 0.3}
+  m_ConnectedAnchor: {x: 0.5, y: 0.29999995}
   m_UseMotor: 1
   m_Motor:
     m_MotorSpeed: 0
@@ -1479,7 +1479,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939772903}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1531,7 +1531,7 @@ MonoBehaviour:
   RightArm: {fileID: 375385751}
   RightHandJoint: {fileID: 475281667}
   Acceleration: 200
-  Movement: 40
+  Movement: 30
 --- !u!1 &1227633951
 GameObject:
   m_ObjectHideFlags: 0
@@ -1773,7 +1773,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.5, y: 0.3}
+  m_ConnectedAnchor: {x: -0.5, y: 0.29999995}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -1782,6 +1782,58 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!1 &1623837360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1623837362}
+  - component: {fileID: 1623837361}
+  m_Layer: 0
+  m_Name: Tree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1623837361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623837360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e376e6d52ad6dc846a9f55bb67d750f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zero: {fileID: 5010589524349587110, guid: 7a3cddcad29a12d4090bbe4dde1c9799, type: 3}
+  one: {fileID: 7889882827380712952, guid: 681789bfdde342b44981d7e0150f0d0e, type: 3}
+  two: {fileID: 2412846388705951364, guid: 0dfe9a301cbeab84db80bf6d0511be39, type: 3}
+  three: {fileID: 3854365464540046934, guid: 5b75d2fe2378cf6489b9c77b15f3fcec, type: 3}
+  arrayWidth: 12
+  arrayHeight: 60
+  tileSize: 2
+  xOffset: 0
+--- !u!4 &1623837362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623837360}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.48147202, y: 5.8315744, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1940464575
 GameObject:
   m_ObjectHideFlags: 0
