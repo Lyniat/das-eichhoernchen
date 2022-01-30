@@ -77,26 +77,32 @@ public class CharacterController : MonoBehaviour, IGameState
 
     void MoveCharacter()
     {
-        var leftX = Gamepad.current.leftStick.x.ReadValue();
-        var leftY = Gamepad.current.leftStick.y.ReadValue();
+        //var leftX = Gamepad.current.leftStick.x.ReadValue();
+        var leftX = Input.GetAxis("HorizontalWASD");
+        //var leftY = Gamepad.current.leftStick.y.ReadValue();
+        var leftY = Input.GetAxis("VerticalWASD");
 
         var usesLeft = Mathf.Abs(leftX) > 0.5f || Mathf.Abs(leftY) > 0.5f;
 
         leftDirection = usesLeft? Mathf.Sign(leftX) * Acceleration : 0f;
 
-        var rightX = Gamepad.current.rightStick.x.ReadValue();
-        var rightY = Gamepad.current.rightStick.y.ReadValue();
+        //var rightX = Gamepad.current.rightStick.x.ReadValue();
+        //var rightY = Gamepad.current.rightStick.y.ReadValue();
+        var rightX = Input.GetAxis("HorizontalArrowKey");
+        var rightY = Input.GetAxis("VerticalArrowKey");
 
         var usesRight = Mathf.Abs(rightX) > 0.5f || Mathf.Abs(rightY) > 0.5f;
         
         rightDirection = usesRight? Mathf.Sign(rightX) * Acceleration : 0f;
 
-        if (Gamepad.current.leftTrigger.isPressed && leftPhase == BodyPhase.Idle)
+        //if (Gamepad.current.leftTrigger.isPressed && leftPhase == BodyPhase.Idle)
+        if(Input.GetKey(KeyCode.Space) && leftPhase == BodyPhase.Idle) 
         {
             leftPhase = BodyPhase.MovingArm;
         }
 
-        if (Gamepad.current.rightTrigger.isPressed && rightPhase == BodyPhase.Idle)
+        //if (Gamepad.current.rightTrigger.isPressed && rightPhase == BodyPhase.Idle)
+        if (Input.GetKey(KeyCode.KeypadEnter) && rightPhase == BodyPhase.Idle)
         {
             rightPhase = BodyPhase.MovingArm;
         }
