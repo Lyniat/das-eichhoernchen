@@ -481,7 +481,9 @@ GameObject:
   - component: {fileID: 384116672}
   - component: {fileID: 384116674}
   - component: {fileID: 384116675}
-  m_Layer: 0
+  - component: {fileID: 384116676}
+  - component: {fileID: 384116677}
+  m_Layer: 6
   m_Name: Left Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -594,6 +596,36 @@ FixedJoint2D:
   m_ConnectedAnchor: {x: -0.19999999, y: 0}
   m_DampingRatio: 0
   m_Frequency: 0
+--- !u!58 &384116676
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384116670}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0000000037252903, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.045
+--- !u!114 &384116677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384116670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 313b6e01a3a2545259ed745b98370336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterController: {fileID: 939772907}
+  handType: 0
 --- !u!1 &475281664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1544,7 +1576,9 @@ GameObject:
   - component: {fileID: 1227633955}
   - component: {fileID: 1227633954}
   - component: {fileID: 1227633953}
-  m_Layer: 0
+  - component: {fileID: 1227633956}
+  - component: {fileID: 1227633957}
+  m_Layer: 6
   m_Name: Right Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1657,6 +1691,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &1227633956
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227633951}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0000000037252903, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.045
+--- !u!114 &1227633957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227633951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 313b6e01a3a2545259ed745b98370336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterController: {fileID: 939772907}
+  handType: 1
 --- !u!1 &1392460543
 GameObject:
   m_ObjectHideFlags: 0

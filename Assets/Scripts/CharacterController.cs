@@ -216,4 +216,9 @@ public class CharacterController : MonoBehaviour, IGameState
     {
         throw new NotImplementedException();
     }
+
+    public void OnHandEnter(Hand.HandType type)
+    {
+        
+    }
 }
